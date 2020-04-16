@@ -89,7 +89,9 @@ class _AnimalsState extends State<Animals> {
               child: RaisedButton(
                 onPressed: () {
                   setState(
-                    () {},
+                    () {
+                      playAnimalSound();
+                    },
                   );
                 },
                 textColor: Colors.white,
