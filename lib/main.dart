@@ -1,6 +1,8 @@
 import 'dart:core';
 
 import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(AnimalSounds());
@@ -36,34 +38,71 @@ class _AnimalsState extends State<Animals> {
   int animalSequence = 0;
   var animal = ['cow', 'chicken', 'goat', 'horse'];
   var animalName = 'cow';
+  static AudioCache mAudioCache = AudioCache();
+  static AudioPlayer mAudioPlayer;
 
   @override
   Widget build(BuildContext context) {
+    playAnimalSound();
     return Center(
       child: SafeArea(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            FlatButton(
-              onPressed: () {
-                setState(() {
-                  final audioPlayer = AudioCache();
-                  audioPlayer.play('$animalName.wav');
-                  print(animal);
-                  print(animalSequence);
-                  animalSequence++;
-                  if (animalSequence < animal.length) {
-                    animalName = animal[animalSequence];
-                  } else {
-                    animalSequence = 0;
-                    animalName = animal[animalSequence];
-                  }
-                });
-              },
-              child: Image.asset('images/$animalName.png'),
+            Image.asset('images/$animalName.png'),
+            SizedBox(
+              height: 35.0,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 250.0),
+              child: RaisedButton(
+                onPressed: () {
+                  setState(
+                    () {
+                      changeAnimal();
+                    },
+                  );
+                },
+                textColor: Colors.white,
+                padding: const EdgeInsets.all(0.0),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: <Color>[
+                        Color(0xFF0D47A1),
+                        Color(0xFF1976D2),
+                        Color(0xFF42A5F5),
+                      ],
+                    ),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 25.0),
+                  child: const Text(
+                    'Next',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  void changeAnimal() async {
+    mAudioPlayer.stop();
+    animalSequence++;
+    if (animalSequence < animal.length) {
+      animalName = animal[animalSequence];
+    } else {
+      animalSequence = 0;
+      animalName = animal[animalSequence];
+      playAnimalSound();
+    }
+  }
+
+  Future<void> playAnimalSound() async {
+    mAudioPlayer = await mAudioCache.play('$animalName.wav');
   }
 }
