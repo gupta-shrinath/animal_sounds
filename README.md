@@ -8,5 +8,5 @@ This application play amimal sounds found in the assets folder.
 
 # Screenshots
 <div align='center'>
-  <img src='https://github.com/gupta-shrinath/animal_sounds/blob/master/screenshots/animalsounds.png'>
+  <img src='https://github.com/gupta-shrinath/animal_sounds/blob/master/screenshots/animalsounds.png'  width = 200>
 </div>
