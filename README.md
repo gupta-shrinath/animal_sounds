@@ -4,7 +4,7 @@ This application play amimal sounds found in the assets folder.
 
 
 # Dependencies
-[audioplayer!](https://pub.dev/packages/audioplayers)
+[audioplayers](https://pub.dev/packages/audioplayers)
 
 # Screenshots
 <div align='center'>
