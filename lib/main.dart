@@ -76,9 +76,38 @@ class _AnimalsState extends State<Animals> {
                     ),
                   ),
                   padding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 25.0),
+                      vertical: 10.0, horizontal: 30.0),
                   child: const Text(
                     'Next',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 250.0),
+              child: RaisedButton(
+                onPressed: () {
+                  setState(
+                    () {},
+                  );
+                },
+                textColor: Colors.white,
+                padding: const EdgeInsets.all(0.0),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: <Color>[
+                        Color(0xFF0D47A1),
+                        Color(0xFF1976D2),
+                        Color(0xFF42A5F5),
+                      ],
+                    ),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 5.0),
+                  child: const Text(
+                    'Play Again',
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
