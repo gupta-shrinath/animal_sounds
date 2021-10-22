@@ -11,3 +11,6 @@
 <div align='center'>
   <img src='https://github.com/gupta-shrinath/animal_sounds/blob/master/screenshots/animalsounds.png'  width = 200>
 </div>
+
+# Download
+[animalsounds](https://github.com/gupta-shrinath/animal_sounds/blob/master/apk/app-release.apk)
