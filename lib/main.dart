@@ -1,6 +1,4 @@
 import 'dart:core';
-
-import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,12 +32,48 @@ class Animals extends StatefulWidget {
   _AnimalsState createState() => _AnimalsState();
 }
 
-class _AnimalsState extends State<Animals> {
+class _AnimalsState extends State<Animals> with WidgetsBindingObserver {
   int animalSequence = 0;
   var animal = ['cow', 'chicken', 'goat', 'horse'];
   var animalName = 'cow';
-  static AudioCache mAudioCache = AudioCache();
-  static AudioPlayer mAudioPlayer;
+  static AudioCache _audioCache = AudioCache();
+  static AudioPlayer _audioPlayer;
+
+  void changeAnimal() async {
+    _audioPlayer.stop();
+    animalSequence++;
+    if (animalSequence < animal.length) {
+      animalName = animal[animalSequence];
+    } else {
+      animalSequence = 0;
+      animalName = animal[animalSequence];
+      playAnimalSound();
+    }
+  }
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      _audioPlayer.stop();
+    }
+  }
+
+  void playAnimalSound() async {
+    _audioPlayer?.release();
+    _audioPlayer = await _audioCache.play('$animalName.wav');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,16 +89,7 @@ class _AnimalsState extends State<Animals> {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 250.0),
-              child: RaisedButton(
-                onPressed: () {
-                  setState(
-                    () {
-                      changeAnimal();
-                    },
-                  );
-                },
-                textColor: Colors.white,
-                padding: const EdgeInsets.all(0.0),
+              child: GestureDetector(
                 child: Container(
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
@@ -79,23 +104,25 @@ class _AnimalsState extends State<Animals> {
                       vertical: 10.0, horizontal: 30.0),
                   child: const Text(
                     'Next',
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
+                onTap: () {
+                  setState(() {
+                    changeAnimal();
+                  });
+                },
               ),
+            ),
+            SizedBox(
+              height: 10.0,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 250.0),
-              child: RaisedButton(
-                onPressed: () {
-                  setState(
-                    () {
-                      playAnimalSound();
-                    },
-                  );
-                },
-                textColor: Colors.white,
-                padding: const EdgeInsets.all(0.0),
+              child: GestureDetector(
                 child: Container(
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
@@ -110,30 +137,20 @@ class _AnimalsState extends State<Animals> {
                       vertical: 10.0, horizontal: 5.0),
                   child: const Text(
                     'Play Again',
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
+                onTap: () {
+                  playAnimalSound();
+                },
               ),
             ),
           ],
         ),
       ),
     );
-  }
-
-  void changeAnimal() async {
-    mAudioPlayer.stop();
-    animalSequence++;
-    if (animalSequence < animal.length) {
-      animalName = animal[animalSequence];
-    } else {
-      animalSequence = 0;
-      animalName = animal[animalSequence];
-      playAnimalSound();
-    }
-  }
-
-  Future<void> playAnimalSound() async {
-    mAudioPlayer = await mAudioCache.play('$animalName.wav');
   }
 }
