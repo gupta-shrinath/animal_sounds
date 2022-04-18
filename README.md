@@ -18,4 +18,4 @@
 </div>
 
 # Download
-[animalsounds](https://github.com/gupta-shrinath/animal_sounds/blob/master/apk/app-release.apk)
+[animalsounds](https://github.com/gupta-shrinath/animal_sounds/blob/firebase/apk/app-release.apk)
